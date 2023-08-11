@@ -1,0 +1,29 @@
+.empty{
+    width: 50%;
+}
+.loginTab{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+}
+.loginNav{
+    display: flex;
+
+}
+.tabs{
+    display: flex;
+    border: 1px solid #ccc; /* Customize the border color and style as needed */
+    border-radius: 4px; /* Optional: Add border-radius for rounded corners */
+    flex-grow: 0;
+    /* max-width: 52%; */
+    margin: auto;
+}
+.tabContent{
+    display: flex;
+    border: 1px solid #ccc; /* Customize the border color and style as needed */
+    border-radius: 4px; /* Optional: Add border-radius for rounded corners */
+    flex-grow: 0;
+    max-width: 52%;
+    margin: auto;
+}
