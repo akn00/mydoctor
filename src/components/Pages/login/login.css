@@ -1,0 +1,27 @@
+.loginPage{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 1.5rem 4.5rem 0rem;
+    width: 100%;
+    margin: auto;
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+}
+.loginPage input{
+    padding: 18.5px 14px ;
+    width: 100%;
+    /* margin-bottom: 2rem; */
+}
+.textFieldInput{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+}
+
+.forgotPassword{
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    justify-content: space-between;
+}

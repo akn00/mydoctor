@@ -1,0 +1,10 @@
+.footer--pin{
+    position: relative;
+    left: 0;
+    bottom: 0;
+    padding: 32px;
+    z-index: 1201;
+    border-top: 1px solid;
+    background-color: #eeeeee;
+    border-top-color: #e0e0e0;
+}
