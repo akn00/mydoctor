@@ -1,14 +1,14 @@
 .header{
-    height: 64px;
+    min-height: 64px;
     overflow: hidden;
     display: flex;
-    position: sticky;
     flex-flow: row wrap;
     align-items: center;
     justify-content: space-between;
     padding-bottom: 10px;
     padding-left: 24px;
     padding-right: 24px;
+    
     background-color: white;
 }
 .logo{
@@ -23,6 +23,32 @@
     margin: 0 1rem;
     overflow: hidden;
 }
-.buttonLogin{
-    /* align-self: flex-end; */
+.searchBar{
+    display: flex;
+}
+.searchBar select{
+    height: 3rem;
+    border:none;
+    max-width: 180px;
+    background-color: #fafafa;
+    font-size: 1rem;
+    outline:none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-left: 10px;
+  }
+ option {
+    text-wrap:wrap; 
+    font-size: 1rem;
+    padding-bottom: 5px;
+    padding: 0px 2px 3px;
+}
+option:checked,
+option:hover,
+option:focus {
+    background-color: rgb(230, 230, 230);
+}
+.search{
+    padding-left: 30px;
+    background-color: #fafafa;
 }

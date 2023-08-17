@@ -8,17 +8,79 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+
 
 
 const Index = () => {
+    
+
+
     const [gender, setGender] = React.useState('male');
     const [ValidateName, setValidatename]=React.useState(false);
     const [ValidatePassword, setValidatePassword]=React.useState(false);
     const [ValidateEmail, setValidateEmail]=React.useState(false);
     const [ValidatePhone, setValidatePhone]=React.useState(false);
     const [disable,setDisable]=React.useState(true);
-    let count=0;
+    const [case1,setCase1]=React.useState(false);
+    const [case2,setCase2]=React.useState(false);
+    const [case3,setCase3]=React.useState(false);
+    const [case4,setCase4]=React.useState(false);
+    const [case5,setCase5]=React.useState(false);
+    const [case6,setCase6]=React.useState(false);
+    const [trunBlueOn,setTurnBlueOn]=React.useState(true);
+    const [show,setShow]=React.useState(false);
+    const [password,setPassword]=React.useState("")
 
+    let count=0;
+function handlePasswordClick() {
+    setShow(true);
+}
+
+
+function verifyPassword(e) {
+    
+    var upperCaseRgx=  /[A-Z]/
+    var lowercaseCaseRgx=  /[a-z]/
+    var digitsRgx=  /[0-9]/
+    var specialCharacterRgx=  /[-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\]/
+    var atLeastSixRgx=  /(?=.{6})/
+    setPassword(e.target.value);
+    setTurnBlueOn(false);
+
+    if(e.target.value.match(upperCaseRgx)){
+        setCase1(true)
+    }
+    else{setCase1(false)}
+    
+    if(e.target.value.match(lowercaseCaseRgx)){
+        setCase2(true)
+    }
+    else{setCase2(false)}
+    
+    if(e.target.value.match(digitsRgx)){
+        setCase3(true)
+    }
+    else{setCase3(false)}
+    
+    if(e.target.value.match(specialCharacterRgx)){
+        setCase4(true)
+    }
+    else{setCase4(false)}
+    
+    if(e.target.value.match(atLeastSixRgx)){
+        setCase5(true)
+    }
+    else{setCase5(false)}
+
+    return password;
+}
+function handleConfirmPassword(e) {
+    if (e.target.value===password) {
+        setCase6(true);  
+    }
+    else{setCase6(false)}
+}
 function ckeckDisabled(){
     
     if(count>=4){
@@ -50,21 +112,34 @@ function ckeckDisabled(){
             ckeckDisabled()
         }
         else{
-            setValidatePhone(false)
+            if(e.target.value.length===10)
+            {setValidatePhone(false)
             count++
-            ckeckDisabled()
+            ckeckDisabled()}
+            else {
+                setValidatePhone(true); // Add this line
+                count--;
+                ckeckDisabled();
+            }
         }
     }
     function validatE(e){
+        var emailRgx=/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         if(e.target.value===""){
             setValidateEmail(true);
             count--;
             ckeckDisabled()
         }
         else{
-            setValidateEmail(false)
+            if(e.target.value.match(emailRgx))
+            {setValidateEmail(false)
             count++
-            ckeckDisabled()
+            ckeckDisabled()}
+            else {
+                setValidateEmail(true); // Add this line
+                count--;
+                ckeckDisabled();
+            }
         }
     }
     function validatPS(e){
@@ -103,6 +178,10 @@ function ckeckDisabled(){
                     <FormControlLabel value="other" control={<Radio color='primary'/>} label="Other" />
                 </RadioGroup>
             </FormControl>
+
+           
+
+
             <label>Mobile Number*</label>
             <OutlinedInput type='number' placeholder="Enter Mobile Number" required={true} error={ValidatePhone} onBlur={validatP}  />
             {ValidatePhone&&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Please enter a valid 10 digit phone number!</p>}
@@ -112,20 +191,32 @@ function ckeckDisabled(){
             {ValidateEmail&&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Please enter a valid name !</p>}
             <br/>
             <label>Create Password*</label>
-            <OutlinedInput type="password" placeholder="create password" required={true}  error={ValidatePassword} onBlur={validatPS}/>
+            <OutlinedInput type="password" placeholder="create password" onChange={verifyPassword} onClick={handlePasswordClick} required={true}  error={ValidatePassword} onBlur={validatPS}/>
             {ValidatePassword&&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Password cannot be empty!</p>}
             <br/>
             <label>Confirm Password*</label>
-            <OutlinedInput type="password" placeholder="confirm password" required={true}  /><br/>
+            <OutlinedInput type="password" placeholder="confirm password" required={true} onChange={handleConfirmPassword} /><br/>
             
-            <div>
-                <p><CheckCircleOutlineOutlinedIcon style={{ color : 'green'}}/>Must contain lowercase letter.</p>
-                <p><CancelOutlinedIcon color='error'/>Must contain Uppercase letter.</p>
-                <p>Must contain at least one special character.</p>
-                <p>Must contain at least one number.</p>
-                <p>Must contain at least 6 characters.  </p>
-                <p> Passwords must match</p>
-            </div>
+            {show&&<div>
+                <p style={{margin:0, fontSize: "14px", }}>
+                    {trunBlueOn?<RadioButtonUncheckedIcon color='primary'/>:case1?<CheckCircleOutlineOutlinedIcon style={{ color : 'green'}}/>:<CancelOutlinedIcon color='error'/>}
+                    Must contain lowercase letter.</p>
+                <p style={{margin:0, fontSize: "14px"}}>
+                    {trunBlueOn?<RadioButtonUncheckedIcon color='primary'/>:case2?<CheckCircleOutlineOutlinedIcon style={{ color : 'green'}}/>:<CancelOutlinedIcon color='error'/>}
+                    Must contain Uppercase letter.</p>
+                <p style={{margin:0, fontSize: "14px"}}>
+                    {trunBlueOn?<RadioButtonUncheckedIcon color='primary'/>:case4?<CheckCircleOutlineOutlinedIcon style={{ color : 'green'}}/>:<CancelOutlinedIcon color='error'/>}
+                    Must contain at least one special character.</p>
+                <p style={{margin:0, fontSize: "14px"}}>
+                    {trunBlueOn?<RadioButtonUncheckedIcon color='primary'/>:case3?<CheckCircleOutlineOutlinedIcon style={{ color : 'green'}}/>:<CancelOutlinedIcon color='error'/>}
+                    Must contain at least one number.</p>
+                <p style={{margin:0, fontSize: "14px"}}>
+                    {trunBlueOn?<RadioButtonUncheckedIcon color='primary'/>:case5?<CheckCircleOutlineOutlinedIcon style={{ color : 'green'}}/>:<CancelOutlinedIcon color='error'/>}
+                    Must contain at least 6 characters.  </p>
+                <p style={{margin:0, fontSize: "14px"}}>
+                    {trunBlueOn?<RadioButtonUncheckedIcon color='primary'/>:case6?<CheckCircleOutlineOutlinedIcon style={{ color : 'green'}}/>:<CancelOutlinedIcon color='error'/>}
+                    Passwords must match</p>
+            </div>}
             
             <div>
                 <Button variant="contained" color='primary' disabled={disable}>REGISTER</Button>

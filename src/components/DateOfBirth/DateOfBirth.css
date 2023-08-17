@@ -1,0 +1,9 @@
+.dobDropdown select{
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    margin-right: 10px;
+    /* max-width: 110px; */
+}
+/* .dobDropdown{
+    max-width: 100px;
+} */
