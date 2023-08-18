@@ -1,5 +1,6 @@
 .empty{
     width: 50%;
+    
 }
 .loginTab{
     display: flex;
@@ -9,26 +10,28 @@
 }
 .loginNav{
     display: flex;
+    margin: 32px;
     align-items:flex-start;
-
 }
 .space{
     height: 48px;
 }
 
 .tabs{
-    display: flex;
+    display: flex; 
     border: 1px solid #ccc; 
     border-radius: 4px; 
     flex-grow: 0;
     /* width: 100%; */
     margin: auto;
     margin-bottom: 2rem;
+    width:60.9%;
 }
 .tabContent{
     display: flex;
     margin: auto;
-    min-width:484px;
+    /* min-width:484px; */
+    width:60.9%;
 }
 .MuiTabs-root{
     width: 100%;
@@ -40,7 +43,6 @@
     
     .tabContent{
         min-width:100%;
-        width: auto;
     }
     .empty{
         width: 50%;
@@ -49,7 +51,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 50%;
+        width: 60%;
     }
     .MuiTabs-root{
         width: 100%;
