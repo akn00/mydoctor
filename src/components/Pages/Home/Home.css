@@ -2,17 +2,3 @@
     display: flex;
     width: 100%;
 }
-.homeContent{
-    background-color: #fafafa;
-}
-.sidebar{
-    height: 100vh;
-    background-color: white;
-    border-right: 1px solid rgba(0, 0, 0, 0.12)
-}
-.homeContent{
-    margin: 32px;
-    display: flex;
-    flex-direction: column;
-    width:100%
-}

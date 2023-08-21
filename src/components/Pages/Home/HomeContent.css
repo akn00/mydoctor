@@ -1,0 +1,10 @@
+.homeContent{
+    background-color: #fafafa;
+}
+
+.homeContent{
+    margin: 32px;
+    display: flex;
+    flex-direction: column;
+    width:100%
+}

@@ -15,8 +15,8 @@ const Header = () => {
     function handleLogoClick() {
         navigate("/")
     }
-    
-    return (
+        
+    return ( 
         <>
             <div className="header">
             <div className="logo">

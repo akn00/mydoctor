@@ -1,0 +1,61 @@
+.spHeading{
+    color: #3f51b5;
+    font-size: 42px;
+    margin-top: 16px;
+    font-weight: bold;   
+}
+.CardsOnHome{
+    display: grid;
+    grid-template-columns: auto auto auto ;
+    gap: 48px;
+    overflow: hidden;
+}
+.allSpecialities{
+    width: auto;
+    display: flex;
+    justify-content: right;
+    padding: 1rem 0 0 0;
+    font-size: 18px;
+}
+.allSpecialities a{
+    color: black;
+    margin-right: 1.3rem;
+    text-decoration: none;
+}
+.allSpecialities a :hover{
+    color: blue;
+}
+@media screen and (max-width: 1919px)  {
+    .CardsOnHome{
+        grid-template-columns: auto auto auto;
+    }
+    .allSpecialities{
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 960px)  {
+    .CardsOnHome{
+        grid-template-columns: auto auto;
+    }
+    .allSpecialities{
+        font-size: 16px;
+    }
+    .allSpecialities{
+    justify-content: center;
+    }
+}
+
+@media screen and (max-width: 600px)  {
+    .CardsOnHome{
+        grid-template-columns: auto;
+        row-gap:  48px ;
+    }
+    .allSpecialities{
+        /* margin-top: -84px; */
+        font-size: 16px;
+    }
+    .allSpecialities{
+        justify-content: center;
+        }
+}
