@@ -9,11 +9,7 @@ import "./app.css"
 
 
 function App() {
-   (async function DataFecth(){
-    const response = await fetch("http://my-doctors.net/api/doctors");
-    var data = await response.json();
-    console.log(data);
-    })();
+
   return (
   <BrowserRouter>
     <div className="App">

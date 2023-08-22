@@ -1,5 +1,5 @@
 import homeBanner from "../../../assets/mainPageBanner.svg"
-import HomeSp from "../../Specialities/HomeSp";
+import HomeSp from "../../SpecialitiesHome/HomeSp";
 import HomeDr from "../HomeDr/HomeDr";
 import "./HomeContent.css"
 
@@ -11,7 +11,7 @@ const HomeContent = () => {
                 <HomeSp />
             </div>
             <div>
-                <HomeDr />
+                <HomeDr /> 
             </div>
         </div>
     );

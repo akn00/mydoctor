@@ -1,0 +1,6 @@
+.DrCardsOnHome{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    gap: 1.8rem;
+    overflow: hidden;
+}

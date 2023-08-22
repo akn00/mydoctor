@@ -6,8 +6,8 @@
 }
 .CardsOnHome{
     display: grid;
-    grid-template-columns: auto auto auto ;
-    gap: 48px;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-gap: 48px;
     overflow: hidden;
 }
 .allSpecialities{
