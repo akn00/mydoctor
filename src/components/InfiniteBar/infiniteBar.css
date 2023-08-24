@@ -1,4 +1,17 @@
 .infiniteBar{
+    display: flex;
+    align-items: center;
     background-color:#F0F0F0;
-    height: 2rem;
+    height: 2.8rem;
+    width:100%
+}
+.swiper-slide{
+    border: 1px solid rgb(105, 105, 105);
+    /* color: rgb(105, 105, 105); */
+}
+.swiper-slide:hover{
+    color: white;
+    background-color: gray;
+    border: 1px solid gray;
+    cursor: pointer;
 }

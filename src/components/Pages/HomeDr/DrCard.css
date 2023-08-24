@@ -1,0 +1,27 @@
+.drCardMain{
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 1rem;
+    justify-content: left;
+    align-items:start ;
+    margin: auto;
+    /* padding: 16px; */
+}
+.cardDr{
+    margin-bottom: 2px;
+}
+
+.drCardContent{
+    display: flex;
+    min-height: 300px;
+    height: auto;
+    flex-direction: column;
+    align-items: inherit;
+    justify-content: space-between;
+}
+.withoutButton{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
