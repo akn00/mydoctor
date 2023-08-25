@@ -5,6 +5,7 @@ import './HomeSp.css';
 const HomeSp = () => {
     const [specializations, setSpecializations] = useState([]);
     const [numberOfSpecialities, setNumberOfSpecialities] = useState(0);
+    const [sliceValue, setSliceValue] = useState(0);
 
     useEffect(() => {
         async function fetchData() {
@@ -22,11 +23,37 @@ const HomeSp = () => {
         fetchData();
     }, []);
 
+
+    useEffect(() => {
+    const handleResize = () => {
+        const w = window.innerWidth;
+        if (w >= 1919) {
+            setSliceValue(8);
+        } else {
+            setSliceValue(6);
+        }
+    };
+
+    // Initial call
+    handleResize();
+
+    // Add an event listener to handle resize
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+        window.removeEventListener("resize", handleResize);
+    };
+}, []);
+
+
+     const newSpecializations=specializations.slice(0,(sliceValue))
+
     return (
         <>
             <div className="spHeading">{numberOfSpecialities}0+ Specialities</div>
             <div className="CardsOnHome">
-                {specializations.map((specialization)=>(
+                {newSpecializations.map((specialization)=>(
                         <CardSp
                             key={specialization.id}
                             name={specialization.name}
