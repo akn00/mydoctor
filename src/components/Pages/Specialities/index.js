@@ -8,8 +8,12 @@ import { Search as SearchIcon } from '@material-ui/icons';
 const Index = () => {
     const [itemsPerPage, setItemsPerPage] = useState(8);
     const [specializations, setSpecializations] = useState([]);
+    const [dataToFilter, setDataToFilter] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [search, setSearch] = useState(false);
+    const [noSpecialities, setNoSpecialities] = useState(false);
     const [numberOfSpecialities, setNumberOfSpecialities] = useState(0);
+
 
     const fetchSpecializations = async () => {
         try {
@@ -19,25 +23,63 @@ const Index = () => {
             const data = await response.json();
             setSpecializations(data.data);
             setNumberOfSpecialities(data.total);
+            setDataToFilter(data.data);
         } catch (error) {
             console.error("Error fetching specializations:", error);
         }
     };
+    function specialitiesSearchHandle(e) {
+        setSearch(true);
+        const searchTerm = e.target.value;
+        const filteredSpecializations = dataToFilter.filter((data) => {
+            return data.name.toLowerCase().includes(searchTerm.toLowerCase());
+        });
+        setSpecializations(filteredSpecializations);
+
+        // if (e.target.value === "") {
+        //     setSearch(false);
+        // }
+    }
+
 
     useEffect(() => {
         fetchSpecializations();
     }, [currentPage, itemsPerPage]);
 
     useEffect(() => {
+        if (specializations.length === 0) {
+            setNoSpecialities(true);
+        }
+        else {
+            setNoSpecialities(false);
+        }
+    });
+
+    useEffect(() => {
         setCurrentPage(1); // Reset current page when itemsPerPage changes
         fetchSpecializations();
     }, [itemsPerPage]);
+
     const calculatedNumberOfSpecialities = Math.floor(numberOfSpecialities / 10) | 0;
     const totalPages = Math.ceil(numberOfSpecialities / itemsPerPage);
+    const searchPages = Math.ceil(specializations.length / itemsPerPage);
+    const searchNumber = specializations.length;
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
-    };
+        // If a search is active, keep the current search results
+        if (search) {
+            const startIndex = (newPage - 1) * itemsPerPage;
+            const visibleSpecializations = specializations.slice(startIndex, startIndex + itemsPerPage);
+            setSpecializations(visibleSpecializations);
+        } else {
+          // Otherwise, fetch the new search results from the API
+          const startIndex = (newPage - 1) * itemsPerPage;
+          const visibleSpecializations = dataToFilter.slice(startIndex, startIndex + itemsPerPage);
+          setSpecializations(visibleSpecializations);
+        }
+      };
+
 
     const handleItemsPerPageChange = (event) => {
         const newItemsPerPage = parseInt(event.target.value, 10);
@@ -51,13 +93,18 @@ const Index = () => {
         <div className="specialitiesMain">
             <SideBar />
             <div className="spPage">
-                <div className="spHeading">
-                    {calculatedNumberOfSpecialities}0+ Specialities
+                <div className="spHeading">{search ? `${searchNumber}+ Specialities` : `${calculatedNumberOfSpecialities}0+ Specialities`}
+
                     <div className="numOfPages">
                         <div className="searchSp">
                             <InputBase
                                 placeholder="Search a Speciality"
                                 inputProps={{ 'aria-label': 'search' }}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') {
+                                        specialitiesSearchHandle(e);
+                                    }
+                                }}
                             />
                             <IconButton aria-label="search">
                                 <SearchIcon />
@@ -73,7 +120,7 @@ const Index = () => {
                                 backgroundColor: "transparent",
                                 border: "1px solid lightGrey",
                                 borderRadius: "4px",
-                                cursor:"pointer",
+                                cursor: "pointer",
                                 outline: "none", // Remove the default focus outline
                             }}
                             className="custom-select" // Add a class for custom styling
@@ -87,16 +134,19 @@ const Index = () => {
                     </div>
                 </div>
                 <div className="CardsOnHome">
-                    {visibleSpecializations.map((specialization) => (
-                        <CardSp
-                            key={specialization.id}
-                            name={specialization.name}
-                            imageUrl={specialization.imageUrl}
-                        />
-                    ))}
+
+                    {noSpecialities ? <p>No Specialities</p> :
+
+                        visibleSpecializations.map((specialization) => (
+                            <CardSp
+                                key={specialization.id}
+                                name={specialization.name}
+                                imageUrl={specialization.imageUrl}
+                            />
+                        ))}
                 </div>
                 <div className="pagination">
-                    {Array.from({ length: totalPages }, (_, index) => (
+                    {Array.from({ length: search ? searchPages : totalPages }, (_, index) => (
                         <button
                             key={index}
                             onClick={() => handlePageChange(index + 1)}
