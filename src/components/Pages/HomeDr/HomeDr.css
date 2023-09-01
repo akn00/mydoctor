@@ -3,19 +3,36 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1.8rem;
     overflow: hidden;
+    min-height:  79.5vh;
+}
+.DrCardsOnDr{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1.8rem;
+    overflow: hidden;
+    min-height:  73vh;
+    padding: 32px;
+    color:gray;
+}
+
+.spResultPage{
+    display: flex;
 }
 
 @media screen and (max-width: 1919px)  {
+    .DrCardsOnDr,
     .DrCardsOnHome{
         grid-template-columns: 1fr 1fr 1fr;
     }   
 }
 @media screen and (max-width: 1280px)  {
+    .DrCardsOnDr,
     .DrCardsOnHome{
         grid-template-columns: 1fr 1fr ;
     }   
 }
 @media screen and (max-width: 600px)  {
+    .DrCardsOnDr,
     .DrCardsOnHome{
         grid-template-columns: 1fr ;
     }   

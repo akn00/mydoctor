@@ -10,6 +10,7 @@
 }
 .cardDr{
     margin-bottom: 2px;
+    max-height: 38vh;
 }
 
 .drCardContent{
@@ -24,4 +25,20 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+@media screen and (max-width: 1919px)  {
+    .cardDr{
+        max-height: 42vh;
+    }
+}
+@media screen and (max-width: 1280px)  {
+    .cardDr{
+        max-height: 58vh;
+    }
+}
+@media screen and (max-width: 600px)  {
+    .cardDr{
+        max-height: 68vh;
+    }
 }

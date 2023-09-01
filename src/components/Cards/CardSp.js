@@ -4,13 +4,20 @@ import "./CardSp.css"
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography'; 
+import { useNavigate } from 'react-router-dom';
 
-const CardSp = ({key,name,imageUrl}) => {
+const CardSp = ({key,name,imageUrl,setSelectedValue}) => {
+    const navigate = useNavigate();
     const baseUrl="http://my-doctors.net"
     const finalUrl= baseUrl+imageUrl;
+    function handleClick(){
+        navigate(`/search?sp=${name}`)
+        setSelectedValue(name)
+        console.log(name);
+    }
     
     return (
-        <div className='cardSp'>
+        <div className='cardSp' onClick={handleClick}>
             <Card variant="outlined">
                 <CardContent style={{display:"flex", alignItems:"center", flexDirection:"column", gap:"2rem"}}>
                    <img src={finalUrl} alt="card img"/>

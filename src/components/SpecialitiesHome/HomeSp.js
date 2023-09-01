@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CardSp from '../Cards/CardSp';
 import './HomeSp.css';
 
-const HomeSp = () => {
+const HomeSp = ({setSelectedValue}) => {
     const [specializations, setSpecializations] = useState([]);
     const [numberOfSpecialities, setNumberOfSpecialities] = useState(0);
     const [sliceValue, setSliceValue] = useState(0);
@@ -56,6 +56,7 @@ const HomeSp = () => {
                 {newSpecializations.map((specialization)=>(
                         <CardSp
                             key={specialization.id}
+                            setSelectedValue={setSelectedValue}
                             name={specialization.name}
                             imageUrl={specialization.imageUrl}
                         />
@@ -63,7 +64,7 @@ const HomeSp = () => {
 
             </div>
             <div className="allSpecialities">
-                <a href="/specialisation">
+                <a href="/specialities">
                     View all Specialities...
                 </a>
             </div>

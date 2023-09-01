@@ -7,15 +7,18 @@ import { Search as SearchIcon } from '@material-ui/icons';
 import HamburgerDrawer from '../HamburgerDrawer'; 
 
 
-const Header = () => {
+const Header = ({selectedValue,setSelectedValue}) => {
     const navigate = useNavigate();
+    // const [selectedValue, setSelectedValue] = React.useState('');
     function handleLoginClick() {
         navigate("login")
     }
     function handleLogoClick() {
         navigate("/")
     }
-        
+    const handleChange = (event) => {
+        setSelectedValue(event.target.value);
+      };    
     return ( 
         <>
             <div className="header">
@@ -23,7 +26,7 @@ const Header = () => {
                 <img src={logo} alt="logo" onClick={handleLogoClick} />
             </div>
             <div className="searchBar">
-                <select id="specialtyInput" defaultValue="">
+                <select id="specialtyInput" value={selectedValue} onChange={handleChange}>
                     <option value="" disabled default>Select a service</option>
                     <option value="Bone Marrow">Bone Marrow</option>
                     <option value="Anesthisiology">  Anesthisiology</option>
