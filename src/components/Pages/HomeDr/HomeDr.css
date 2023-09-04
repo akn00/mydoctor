@@ -20,19 +20,28 @@
 }
 
 @media screen and (max-width: 1919px)  {
-    .DrCardsOnDr,
+    .DrCardsOnDr{
+        grid-template-columns: 1fr 1fr 1fr;
+        min-height:  73vh;
+    }
     .DrCardsOnHome{
         grid-template-columns: 1fr 1fr 1fr;
     }   
 }
 @media screen and (max-width: 1280px)  {
-    .DrCardsOnDr,
+    .DrCardsOnDr{
+        grid-template-columns: 1fr 1fr ;
+        min-height:  73vh;
+    }
     .DrCardsOnHome{
         grid-template-columns: 1fr 1fr ;
     }   
 }
 @media screen and (max-width: 600px)  {
-    .DrCardsOnDr,
+    .DrCardsOnDr{
+        grid-template-columns: 1fr ;
+        min-height:  73vh;
+    }
     .DrCardsOnHome{
         grid-template-columns: 1fr ;
     }   

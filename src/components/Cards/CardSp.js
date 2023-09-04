@@ -6,13 +6,12 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography'; 
 import { useNavigate } from 'react-router-dom';
 
-const CardSp = ({key,name,imageUrl,setSelectedValue}) => {
+const CardSp = ({key,name,imageUrl}) => {
     const navigate = useNavigate();
     const baseUrl="http://my-doctors.net"
     const finalUrl= baseUrl+imageUrl;
     function handleClick(){
         navigate(`/search?sp=${name}`)
-        setSelectedValue(name)
         console.log(name);
     }
     

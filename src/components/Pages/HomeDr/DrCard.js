@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 
 const DrCard = ({ doctor }) => {
@@ -30,10 +31,13 @@ const DrCard = ({ doctor }) => {
         setHospital(hospitalName);
     }, [doctor]);
 
-
+    const navigate =useNavigate();
+    function handleClickDr(){
+        navigate(`/doctor/${doctor._id}`)
+    }
 
     return (
-        <div className='cardDr'>
+        <div className='cardDr' onClick={handleClickDr}>
             <Card variant="outlined" style={{height:"100%"}}>
                 <CardContent style={{ display: "flex", alignItems: "center", flexDirection: "column", gap: "2rem",padding: "1.8rem 1.2rem"}}>
                     <div className='drCardMain'>

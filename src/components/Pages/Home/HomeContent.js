@@ -3,12 +3,12 @@ import HomeSp from "../../SpecialitiesHome/HomeSp";
 import HomeDr from "../HomeDr/HomeDr";
 import "./HomeContent.css"
 
-const HomeContent = ({setSelectedValue}) => {
+const HomeContent = () => {
     return (
         <div className="homeContent">
             <img src={homeBanner} alt="Home page Banner" />
             <div>
-                <HomeSp setSelectedValue={setSelectedValue}/>
+                <HomeSp />
             </div>
             <div>
                 <HomeDr /> 

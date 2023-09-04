@@ -117,7 +117,7 @@ const Index = ({setSelectedValue}) => {
                     <div className="CardsOnHome">
                         {visibleSpecializations.map((specialization) => (
                             <CardSp
-                                setSelectedValue={setSelectedValue}
+                                
                                 key={specialization.id}
                                 name={specialization.name}
                                 imageUrl={specialization.imageUrl}

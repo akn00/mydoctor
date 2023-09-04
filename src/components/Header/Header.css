@@ -27,6 +27,7 @@
 }
 .searchBar{
     display: flex;
+    min-width: 502px;
 }
 .searchBar select{
     height: 3rem;
@@ -95,3 +96,12 @@ option:focus {
         display: flex;
     }
 }
+
+/* Header.css */
+.no-border {
+    border: none !important; /* Remove the border */
+    outline: none !important; /* Remove the outline */
+  }
+.customcss fieldset{
+    border: none;
+}  
