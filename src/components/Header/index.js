@@ -25,7 +25,9 @@ const Header = () => {
     }
   };
   
-
+  function searchHandle(){
+    navigate(`/search?sp=${selectedValue}`)
+  }
 
   useEffect(() => {
     fetchSpecializations();
@@ -62,7 +64,7 @@ const Header = () => {
             id="specialtyInput"
             value={selectedValue}
             style={{minWidth:"227px"}}
-            onChange={(event, newValue) => setSelectedValue(newValue)}
+            onChange={(event, newValue) => {handleChange(event); setSelectedValue(newValue)}}
             options={specializations.map(
               (specialization) => specialization.name
             )}
@@ -82,7 +84,7 @@ const Header = () => {
               placeholder="Search Doctors"
               inputProps={{ "aria-label": "search" }}
             />
-            <IconButton aria-label="search">
+            <IconButton aria-label="search" onClick={searchHandle}>
               <SearchIcon />
             </IconButton>
           </div>
@@ -131,8 +133,8 @@ const Header = () => {
                 placeholder="Search Doctors"
                 inputProps={{ "aria-label": "search" }}
               />
-              <IconButton aria-label="search">
-                <SearchIcon />
+              <IconButton aria-label="search" onClick={()=>(navigate(`/doctor/${selectedValue}`))}>
+                <SearchIcon  />
               </IconButton>
             </div>
           </div>
