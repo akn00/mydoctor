@@ -9,18 +9,27 @@ import Radio from '@material-ui/core/Radio';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-
-
+import Alert from '@mui/material/Alert';
 
 const Index = () => {
     
-
-
     const [gender, setGender] = React.useState('male');
+    const [name,setName ] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [password,setPassword ] = React.useState('');
+    const [mobNumber,setMobnumber ] = React.useState('');
+    const [signupStatus, setSignupStatus]=React.useState(false);
     const [ValidateName, setValidatename]=React.useState(false);
     const [ValidatePassword, setValidatePassword]=React.useState(false);
     const [ValidateEmail, setValidateEmail]=React.useState(false);
     const [ValidatePhone, setValidatePhone]=React.useState(false);
+    const [ValidateName1, setValidatename1]=React.useState(false);
+    const [ValidatePassword1, setValidatePassword1]=React.useState(false);
+    const [ValidateEmail1, setValidateEmail1]=React.useState(false);
+    const [ValidatePhone1, setValidatePhone1]=React.useState(false);
+    const [ValidatePhoneExist, setValidatePhoneExist]=React.useState(false);
+    const [ValidateEmailExist, setValidateEmailExist]=React.useState(false);
+    const [CP, setCP]=React.useState(false);
     const [disable,setDisable]=React.useState(true);
     const [case1,setCase1]=React.useState(false);
     const [case2,setCase2]=React.useState(false);
@@ -30,15 +39,20 @@ const Index = () => {
     const [case6,setCase6]=React.useState(false);
     const [trunBlueOn,setTurnBlueOn]=React.useState(true);
     const [show,setShow]=React.useState(false);
-    const [password,setPassword]=React.useState("")
 
-    let count=0;
 function handlePasswordClick() {
     setShow(true);
 }
 
 
 function verifyPassword(e) {
+
+    if(e.target.value===""){
+        setValidatePassword1(false)
+    }
+    else{
+        setValidatePassword1(true)
+    }
     
     var upperCaseRgx=  /[A-Z]/
     var lowercaseCaseRgx=  /[a-z]/
@@ -78,15 +92,15 @@ function verifyPassword(e) {
 function handleConfirmPassword(e) {
     if (e.target.value===password) {
         setCase6(true);  
+        setCP(true)
     }
-    else{setCase6(false)}
+    else{setCase6(false)
+    setCP(false)}
 }
+
 function ckeckDisabled(){
-    
-    if(count>=4){
-        if(!ValidateName && !ValidatePassword && !ValidateEmail && !ValidatePhone){
+    if(ValidateName1 && ValidatePassword1 && ValidateEmail1 && ValidatePhone1 && CP){
         setDisable(false)
-        }
     }
     else{
         setDisable(true)
@@ -96,29 +110,24 @@ function ckeckDisabled(){
     function validateN(e){
         if(e.target.value===""){
             setValidatename(true);
-            count--
             ckeckDisabled()
         }
         else{
             setValidatename(false);
-            count++;
             ckeckDisabled()
         }
     }
     function validatP(e){
         if(e.target.value===""){
             setValidatePhone(true);
-            count--;
             ckeckDisabled()
         }
         else{
             if(e.target.value.length===10)
             {setValidatePhone(false)
-            count++
             ckeckDisabled()}
             else {
-                setValidatePhone(true); // Add this line
-                count--;
+                setValidatePhone(true); 
                 ckeckDisabled();
             }
         }
@@ -127,17 +136,14 @@ function ckeckDisabled(){
         var emailRgx=/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         if(e.target.value===""){
             setValidateEmail(true);
-            count--;
             ckeckDisabled()
         }
         else{
             if(e.target.value.match(emailRgx))
             {setValidateEmail(false)
-            count++
             ckeckDisabled()}
             else {
-                setValidateEmail(true); // Add this line
-                count--;
+                setValidateEmail(true);
                 ckeckDisabled();
             }
         }
@@ -145,23 +151,105 @@ function ckeckDisabled(){
     function validatPS(e){
         if(e.target.value===""){
             setValidatePassword(true);
-            count--;
             ckeckDisabled()
         }
         else{
             setValidatePassword(false)
-            count++
             ckeckDisabled()
         }
     }
 
+    function onNameChnage(e){
+        if(e.target.value===""){
+            setValidatename1(false)
+        }
+        else{
+            setValidatename1(true)
+            setName(e.target.value)
+        }
+    }
+
+    async function alreadyExistCheckP(e){
+        const mobileNumber=e.target.value;
+        setMobnumber(mobileNumber)
+        if(mobileNumber===""){
+            setValidatePhone1(false)
+        }
+        else{setValidatePhone1(true)}
+
+        let result = await fetch(`http://my-doctors.net:8090/accounts?contactNumber=${mobileNumber}`,{
+            method:"GET"      
+        })
+        result = await result.json();
+        // console.log(result);
+
+        if(result.name==="account exists"){
+            setValidatePhoneExist(true);
+        }
+        else{
+            setValidatePhoneExist(false);
+        }
+
+    }
+    async function alreadyExistCheckE(e){
+        const email=e.target.value;
+        setEmail(email)
+        if(email===""){
+            setValidateEmail1(false)
+        }
+        else{
+            setValidateEmail1(true)
+        }
+        let result = await fetch(`http://my-doctors.net:8090/accounts?email=${email}`,{
+            method:"GET"      
+        })
+        result = await result.json();
+        // console.log(result);
+
+        if(result.name==="account exists"){
+            setValidateEmailExist(true);
+        }
+        else{
+            setValidateEmailExist(false);
+        }
+
+    }
+let fullName=name.split(" ");
+const data={firstName:fullName[0],lastName:fullName[1],email:email,password:password,contactNumber:mobNumber,gender:gender}
+
+
+    async function handleRegister(){
+        let result = await fetch("http://my-doctors.net:8090/doctors",{
+            method:"POST",
+            headers:{
+                'Accept':"application/json",
+                "content-type":"application/json"
+            },
+            body:JSON.stringify({...data}),
+                
+            
+        })
+        result = await result.json();
+        if(result.name==="NotFound"){
+            setSignupStatus(false)
+        }
+        else{
+            setSignupStatus(true)
+            setName("")
+            setEmail("")
+            setMobnumber("")
+            setPassword("")
+
+        }
+    }
  
     return (    
         <div className='patientSignup'>
             
             <h2>Create an account</h2>
+            {signupStatus&&<Alert severity="success">Signed up sucessfully</Alert>}
             <label>Full Name*</label>
-            <OutlinedInput type="text" placeholder="Enter name" required={true} error={ValidateName} onBlur={validateN} />
+            <OutlinedInput type="text" placeholder="Enter name" value={name} required={true} error={ValidateName} onBlur={validateN} onChange={onNameChnage}/>
             {ValidateName && <p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Please enter a valid name !</p>}
             <br/>
             <label>Gender*</label>
@@ -183,15 +271,17 @@ function ckeckDisabled(){
 
 
             <label>Mobile Number*</label>
-            <OutlinedInput type='number' placeholder="Enter Mobile Number" required={true} error={ValidatePhone} onBlur={validatP}  />
+            <OutlinedInput type='number' placeholder="Enter Mobile Number" value={mobNumber} required={true} error={ValidatePhone} onBlur={validatP}  onChange={alreadyExistCheckP}/>
             {ValidatePhone&&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Please enter a valid 10 digit phone number!</p>}
+            {ValidatePhoneExist &&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Mobile number already exists!</p>}
             <br/>
             <label>Email*</label>
-            <OutlinedInput type="email" placeholder="abc@gmail.com" required={true}  error={ValidateEmail} onBlur={validatE}/>
-            {ValidateEmail&&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Please enter a valid name !</p>}
+            <OutlinedInput type="email" placeholder="abc@gmail.com" required={true} value={email}  error={ValidateEmail} onBlur={validatE} onChange={alreadyExistCheckE}/>
+            {ValidateEmail&&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Please enter a valid email!</p>}
+            {ValidateEmailExist&&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>email already exist!</p>}
             <br/>
             <label>Create Password*</label>
-            <OutlinedInput type="password" placeholder="create password" onChange={verifyPassword} onClick={handlePasswordClick} required={true}  error={ValidatePassword} onBlur={validatPS}/>
+            <OutlinedInput type="password" placeholder="create password" value={password} onChange={verifyPassword} onClick={handlePasswordClick} required={true}  error={ValidatePassword} onBlur={validatPS}/>
             {ValidatePassword&&<p style={{color: "red", fontSize: "12px", margin: 0, marginLeft: "15px"}}>Password cannot be empty!</p>}
             <br/>
             <label>Confirm Password*</label>
@@ -219,7 +309,7 @@ function ckeckDisabled(){
             </div>}
             
             <div>
-                <Button variant="contained" color='primary' disabled={disable}>REGISTER</Button>
+                <Button variant="contained" color='primary' disabled={disable} onClick={handleRegister}>REGISTER</Button>
             </div>
             <p >Alraedy have an account? <a href='/'>Sign in</a></p>
 

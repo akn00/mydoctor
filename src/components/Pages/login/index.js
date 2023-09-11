@@ -66,8 +66,8 @@ const Index = () => {
             </div>
         </div>}
     <div className="textFieldInput">
-    <TextField id="outlined-basic" label="Email or Mobile Number *" required variant="outlined" margin="normal" value={email} onChange={(e)=>(setemail(e.target.value))}/>
-    <TextField id="outlined-basic" type="password" label="Password *" required variant="outlined" margin="normal" value={password} onChange={(e)=>(setPassword(e.target.value))}/>
+    <TextField id="outlined-basic" label="Email or Mobile Number" required variant="outlined" margin="normal" value={email} onChange={(e)=>(setemail(e.target.value))}/>
+    <TextField id="outlined-basic" type="password" label="Password" required variant="outlined" margin="normal" value={password} onChange={(e)=>(setPassword(e.target.value))}/>
     </div>
     <div className="forgotPassword">
     <Button variant="contained" color="primary" onClick={loginClick}>Login</Button>

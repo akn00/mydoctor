@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import "./DateOfBirth.css"; 
 
-const Index = () => {
-  const [day, setDay] = useState('');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+const Index = ({day, setDay,month, setMonth,year, setYear}) => {
+
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, index) => currentYear - index);
@@ -67,3 +65,11 @@ const Index = () => {
 };
 
 export default Index;
+
+
+
+
+
+
+
+
