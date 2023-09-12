@@ -7,11 +7,28 @@ import { Search as SearchIcon } from "@material-ui/icons";
 import HamburgerDrawer from "../HamburgerDrawer";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import Box from '@mui/material/Box';
+import PersonIcon from '@mui/icons-material/Person';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const Header = () => {
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState("");
   const [specializations, setSpecializations] = useState([]);
+  const userId=localStorage.getItem("userInfo")
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const fetchSpecializations = async () => {
     try {
@@ -24,7 +41,7 @@ const Header = () => {
       console.error("Error fetching specializations:", error);
     }
   };
-  
+ 
   function searchHandle(){
     navigate(`/search?sp=${selectedValue}`)
   }
@@ -53,7 +70,13 @@ const Header = () => {
     speciality ? setSelectedValue(speciality) : setSelectedValue("");
   }, [speciality]);
 
-  return (
+  function handleLogout(){
+    localStorage.setItem("userInfo","")
+    handleClose()
+    navigate("/")
+  }
+
+  return ( 
     <>
       <div className="header">
         <div className="logo">
@@ -90,11 +113,53 @@ const Header = () => {
           </div>
         </div>
 
+        {userId ?<div className='drCardlogo'>
+          <Box 
+          style={{ backgroundColor: "#bdbdbd", borderRadius: "50%" }}
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          >
+            <PersonIcon fontSize="large" style={{ color: "white", paddingLeft:"3px", paddingRight:"3px"}} />
+          </Box>
+          <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <MenuItem onClick={handleClose} style={{gap:"10px"}}>
+          <PermIdentityIcon />
+          Account Settings
+        </MenuItem>
+        <MenuItem onClick={handleClose} style={{gap:"10px"}}>
+          <CalendarTodayIcon/>
+          My Appointments
+        </MenuItem>
+        <MenuItem onClick={handleLogout} style={{gap:"10px"}}>
+        <ExitToAppIcon/>
+          Logout
+        </MenuItem>
+      </Menu>
+        </div>
+        :
         <div className="buttonLogin">
           <Button variant="contained" color="primary" onClick={handleLoginClick}>
             Login
           </Button>
         </div>
+        
+        }
       </div>
 
       <div className="smallHeader">
@@ -103,11 +168,53 @@ const Header = () => {
           <div className="logo">
             <img src={logo} alt="logo" onClick={handleLogoClick} />
           </div>
-          <div className="buttonLogin">
-            <Button variant="contained" color="primary" onClick={handleLoginClick}>
-              Login
-            </Button>
-          </div>
+          {userId ?<div className='drCardlogo'>
+          <Box 
+          style={{ backgroundColor: "#bdbdbd", borderRadius: "50%" }}
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          >
+            <PersonIcon fontSize="large" style={{ color: "white", paddingLeft:"3px", paddingRight:"3px"}} />
+          </Box>
+          <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <MenuItem onClick={handleClose} style={{gap:"10px"}}>
+          <PermIdentityIcon />
+          Account Settings
+        </MenuItem>
+        <MenuItem onClick={handleClose} style={{gap:"10px"}}>
+          <CalendarTodayIcon/>
+          My Appointments
+        </MenuItem>
+        <MenuItem onClick={handleLogout} style={{gap:"10px"}}>
+        <ExitToAppIcon/>
+          Logout
+        </MenuItem>
+      </Menu>
+        </div>
+        :
+        <div className="buttonLogin">
+          <Button variant="contained" color="primary" onClick={handleLoginClick}>
+            Login
+          </Button>
+        </div>
+        
+        }
         </div>
 
         <div className="lower">

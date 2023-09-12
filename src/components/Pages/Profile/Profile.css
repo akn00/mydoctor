@@ -1,0 +1,19 @@
+.myProfile{
+    display: flex;
+    
+}
+.profileContent{
+    padding: 36px;
+    width: 100%;
+    min-height: 72vh;
+}
+.profilePicWithButton{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* min-height: 300px; */
+}
+.profileInputs{
+ display: grid;
+ grid-template-columns: 1fr 1fr 1fr 1fr;
+ grid-gap: 24px;
+}

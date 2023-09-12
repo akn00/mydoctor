@@ -46,7 +46,7 @@ const DrCard = ({ doctor }) => {
                         <Box style={{ backgroundColor: "lightGrey", borderRadius: "50%" }}>
                             <PersonIcon style={{ color: "white", height: "80px", width: "80px" }} />
                         </Box>
-                    </div>
+                    </div> 
 
                     <div className='drCardContent'>
                         <div className='withoutButton'>
