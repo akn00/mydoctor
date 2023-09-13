@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import Avatar from '@mui/material/Avatar';
+
 
 const Header = () => {
   const navigate = useNavigate();
@@ -76,6 +78,35 @@ const Header = () => {
     navigate("/")
   }
 
+
+  const userData=JSON.parse(localStorage.getItem("userInfo"))
+    const [avatarImg,setAvatarImg]=useState();
+    // console.log(userData)
+    async function getPatientImage() {
+        const queryParams = new URLSearchParams({
+            avatar: 1,
+            "$select[]": "avatarId",
+        });
+        let response = await fetch(
+            `http://my-doctors.net:8090/patients/${userData.user._id
+            }?${queryParams.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${userData.accessToken}`,
+                },
+
+            });
+        response = await response.json();
+        setAvatarImg(response?.avatar?.buffer);
+        // console.log("from header",response.avatar)
+    }
+    useState(()=>{
+        getPatientImage();
+    },[])
+
+
+
   return ( 
     <>
       <div className="header">
@@ -121,7 +152,7 @@ const Header = () => {
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
           >
-            <PersonIcon fontSize="large" style={{ color: "white", paddingLeft:"3px", paddingRight:"3px"}} />
+                    <Avatar style={{width:"40px", height:"40px"}} src={avatarImg || "/broken-image.jpg"}/>
           </Box>
           <Menu
         id="demo-positioned-menu"

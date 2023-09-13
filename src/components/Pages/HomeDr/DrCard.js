@@ -77,7 +77,7 @@ const DrCard = ({ doctor }) => {
                         Next Available :Not available
                     </Typography>
                     </div>
-                    <Button variant="outlined" size='small' style={{borderRadius:"25px",flexGrow:0 , flexShrink:0 , bottom:"0"}}>BOOK APPOINTMENT</Button>
+                    <Button variant="outlined" size='small' style={{color:"#3f51b5",borderColor:"#3f51b5", borderRadius:"25px",flexGrow:0 , flexShrink:0 , bottom:"0"}}>BOOK APPOINTMENT</Button>
                     </div>
                     </div>
                 </CardContent>
