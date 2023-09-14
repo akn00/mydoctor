@@ -79,9 +79,9 @@ const Header = () => {
   }
 
 
-  const userData=JSON.parse(localStorage.getItem("userInfo"))
+  const userData=JSON.parse(localStorage.getItem("userInfo") || null)
     const [avatarImg,setAvatarImg]=useState();
-    // console.log(userData)
+    
     async function getPatientImage() {
         const queryParams = new URLSearchParams({
             avatar: 1,
@@ -99,11 +99,10 @@ const Header = () => {
             });
         response = await response.json();
         setAvatarImg(response?.avatar?.buffer);
-        // console.log("from header",response.avatar)
     }
     useState(()=>{
         getPatientImage();
-    },[])
+    })
 
 
 

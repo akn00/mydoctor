@@ -8,11 +8,10 @@ import { useState } from "react";
 
 
 const Index = () => {
-    const userData=JSON.parse(localStorage.getItem("userInfo"))
+    const userData=JSON.parse(localStorage.getItem("userInfo") || null)
 
     const [avatarImg,setAvatarImg]=useState();
 
-    // console.log(userData)
     async function getPatientImage() {
         const queryParams = new URLSearchParams({
             avatar: 1,
@@ -30,17 +29,10 @@ const Index = () => {
             });
         response = await response.json();
         setAvatarImg(response?.avatar?.buffer);
-        // console.log("from profile",response.avatar)
     }
     useState(()=>{
         getPatientImage();
-    },[])
-
-
-
-
-
-
+    })
 
     return (<div className="myProfile">
         <SideBar />
@@ -57,7 +49,7 @@ const Index = () => {
             <div className="profilePicWithButton">
                 <div>
                     <Avatar style={{width:"120px", height:"120px"}} src={avatarImg || "/broken-image.jpg"}/>
-                    {/* {console.log(avatarImg.avatar.buffer)} */}
+                    
                     <p style={{
                         fontSize:"12px",
                         width:"100%",
