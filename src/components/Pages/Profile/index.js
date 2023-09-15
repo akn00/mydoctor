@@ -2,16 +2,128 @@ import SideBar from "../../SideBar/Index"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import "./Profile.css"
-import PersonIcon from '@mui/icons-material/Person';
-import Avatar from '@mui/material/Avatar';
-import { useState } from "react";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';import Avatar from '@mui/material/Avatar';
+import { useEffect, useState } from "react";
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 const Index = () => {
     const userData=JSON.parse(localStorage.getItem("userInfo") || null)
 
     const [avatarImg,setAvatarImg]=useState();
+    const [editable,setEditable]=useState(false);
+    const [saveActive,setSaveActive]=useState(false);
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [gender, setGender] = useState('');
+    const [dob, setDOB] = useState('');
+    const [bloodgroup, setBloodgroup] = useState('');
+    const [house, setHouse] = useState('');
+    const [colony, setColony] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [country, setCountry] = useState('');
+    const [pincode, setPincode] = useState('');
 
+    const handleGenderChange = (event) => {
+      setGender(event.target.value);
+    };
+
+    const handleBloodgroupChange = (event) => {
+      setBloodgroup(event.target.value);
+    };
+
+    function handleName(e){
+        setName(e.target.value);
+    }
+
+    function handlePhone(e){
+        setPhone(e.target.value);
+    }
+    
+    function handleEmail(e){
+        setEmail(e.target.value);
+    }
+    
+    function handleDOB(e){
+        setDOB(dayjs(e.target.value));
+    }
+    
+    function handleHouse(e){
+        setHouse(e.target.value);
+    }
+    
+    function handleColony(e){
+        setColony(e.target.value);
+    }
+    
+    function handleCity(e){
+        setCity(e.target.value);
+    }
+    
+    function handleState(e){
+        setState(e.target.value);
+    }
+    
+    function handleCountry(e){
+        setCountry(e.target.value);
+    }
+    
+    function handlePincode(e){
+        setPincode(e.target.value);
+    }
+    
+    function handleEdit(){
+        setEditable(true)
+    }
+    
+    function handleSave(){
+        setEditable(false)
+    }
+
+    function checkDisable(){
+        if(name!=="" && phone!=="" && email!=="" && gender!=="" && name!=="" && dob!=="" && bloodgroup!=="" && house!=="" && colony!=="" && pincode!=="" && house.length>=4 && colony.length>=2 && pincode.length>=6 ){
+            setSaveActive(true)
+        }
+        else{
+            setSaveActive(false)
+        }
+    }
+
+    async function getPatient() {
+       
+        let response = await fetch(
+            `http://my-doctors.net:8090/patients/${userData.user._id
+            }`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${userData.accessToken}`,
+                },
+
+            });
+        response = await response.json();
+        console.log(response)
+        setName(response?.firstName+" "+response?.lastName)
+        setPhone(response?.contactNumber)
+        setEmail(response?.email)
+        setGender(response?.gender)
+        setBloodgroup(response?.profile?.bloodType)
+        setHouse(response?.profile?.address?.area)
+        setColony(response?.profile?.address?.locality)
+        setCity(response?.profile?.address?.city)
+        setState(response?.profile?.address?.state)
+        setCountry(response?.profile?.address?.country)
+        setPincode(response?.profile?.address?.pincode)
+        setDOB(dayjs(response?.profile.dob))
+    }
     async function getPatientImage() {
         const queryParams = new URLSearchParams({
             avatar: 1,
@@ -30,8 +142,12 @@ const Index = () => {
         response = await response.json();
         setAvatarImg(response?.avatar?.buffer);
     }
-    useState(()=>{
+    useEffect(()=>{
+        getPatient();
         getPatientImage();
+    },[])
+    useEffect(()=>{
+        checkDisable();
     })
 
     return (<div className="myProfile">
@@ -60,22 +176,64 @@ const Index = () => {
                 </div>
                 <div></div>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button style={{ backgroundColor: "#3f51b5", height:"40px"}} variant="contained">EDIT</Button>
+                    {!editable &&<Button style={{ backgroundColor: "#3f51b5", height:"40px"}} variant="contained" onClick={handleEdit} >EDIT</Button>}
+                    {editable&&<Button style={{ backgroundColor:!saveActive?"": "#3f51b5", height:"40px"}} variant="contained" onClick={handleSave} disabled={!saveActive}>SAVE</Button>}
                 </div>
             </div>
             <div className="profileInputs">
-                <TextField id="outlined-basic" label="Name" variant="outlined" />
-                <TextField id="outlined-basic" label="Phone Number" variant="outlined" />
-                <TextField id="outlined-basic" label="Email" variant="outlined" />
-                <TextField id="outlined-basic" label="Gender" variant="outlined" />
-                <TextField id="outlined-basic" label="Date of birth" variant="outlined" />
-                <TextField id="outlined-basic" label="Bloodgroup" variant="outlined" />
-                <TextField id="outlined-basic" label="House no./Street/Area" variant="outlined" />
-                <TextField id="outlined-basic" label="Colony/Street/Locality" variant="outlined" />
-                <TextField id="outlined-basic" label="City" variant="outlined" />
-                <TextField id="outlined-basic" label="State" variant="outlined" />
-                <TextField id="outlined-basic" label="Country" variant="outlined" />
-                <TextField id="outlined-basic" label="Pincode" variant="outlined" />
+                <TextField id="outlined-basic" label="Name" variant="outlined" value={name} onChange={handleName} disabled ={!editable}/>
+                <TextField id="outlined-basic" label="Phone Number" variant="outlined" value={phone} onChange={handlePhone} disabled ={true}/>
+                <TextField id="outlined-basic" label="Email" variant="outlined" value={email} onChange={handleEmail} disabled ={true}/>
+
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={gender}
+                    label="Gender"
+                    onChange={handleGenderChange}
+                     disabled ={!editable}>
+                    <MenuItem value={"male"}>Male</MenuItem>
+                    <MenuItem value={"female"}>Female</MenuItem>
+                    <MenuItem value={"other"}>Other</MenuItem>
+                    </Select>
+                </FormControl>        
+
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                    label="Dte of Birth"
+                    value={dob}
+                    onChange={handleDOB}
+                     disabled ={!editable}/>
+                </LocalizationProvider>
+
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Bloodgroup</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={bloodgroup}
+                    label="Bloodgroup"
+                    onChange={handleBloodgroupChange}
+                      disabled ={!editable}>
+                    <MenuItem value={"A+"}>A+</MenuItem>
+                    <MenuItem value={"A-"}>A-</MenuItem>
+                    <MenuItem value={"B+"}>B+</MenuItem>
+                    <MenuItem value={"AB-"}>AB-</MenuItem>
+                    <MenuItem value={"AB+"}>AB+</MenuItem>
+                    <MenuItem value={"O+"}>O+</MenuItem>
+                    <MenuItem value={"O-"}>O-</MenuItem>
+                    </Select>
+                </FormControl>
+
+
+                <TextField id="outlined-basic" label="House no./Street/Area" variant="outlined" value={house} onChange={handleHouse} disabled ={!editable}/>
+                <TextField id="outlined-basic" label="Colony/Street/Locality" variant="outlined" value={colony} onChange={handleColony} disabled ={!editable}/>
+                <TextField id="outlined-basic" label="City" variant="outlined" value={city} onChange={handleCity} disabled ={!editable}/>
+                <TextField id="outlined-basic" label="State" variant="outlined" value={state} onChange={handleState} disabled ={!editable}/>
+                <TextField id="outlined-basic" label="Country" variant="outlined" value={country} onChange={handleCountry} disabled ={!editable}/>
+                <TextField id="outlined-basic" label="Pincode" variant="outlined" type="number" value={pincode} onChange={handlePincode} disabled ={!editable}/>
 
 
             </div>
