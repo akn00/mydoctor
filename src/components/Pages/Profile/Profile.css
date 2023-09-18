@@ -12,9 +12,11 @@
     grid-template-columns: 1fr 1fr 1fr;
     /* min-height: 300px; */
 }
+
 .profileInputs{
- display: grid;
- grid-template-columns: 1fr 1fr 1fr 1fr;
- row-gap: 46px;
- column-gap: 24px;
+    margin-top:20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 46px;
+    column-gap: 24px;
 }
