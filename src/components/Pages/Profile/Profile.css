@@ -20,3 +20,18 @@
     row-gap: 46px;
     column-gap: 24px;
 }
+@media screen and (max-width: 1919px)  {
+    .profileInputs{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+@media screen and (max-width: 1280px)  {
+    .profileInputs{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media screen and (max-width: 600px)  {
+    .profileInputs{
+        grid-template-columns: 1fr;
+    }
+}

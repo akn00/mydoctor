@@ -15,7 +15,6 @@ import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import CloseIcon from '@mui/icons-material/Close';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useNavigate } from "react-router-dom";
 
 
 
@@ -37,7 +36,7 @@ const Index = () => {
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
     const [pincode, setPincode] = useState('');
-    const navigate =useNavigate();
+   
     const handleGenderChange = (event) => {
         setGender(event.target.value);
     };
@@ -91,11 +90,34 @@ const Index = () => {
     }
 
     function handleSave() {
-        setEditable(false)
+        // console.log();
+        let fullName=name.split(" ");
+        const data={
+            firstName:fullName[0], 
+            gender:gender, 
+            lastName:fullName[1], 
+            profile:{
+                dob:dayjs(dob).format("YYYY-MM-DD"), 
+                bloodType:bloodgroup, 
+                address:{
+                    area: house,
+                    city: city,
+                    country: country,
+                    locality: colony,
+                    pincode: pincode,
+                    state: state,
+                }
+            }
+        }
+         
+
+        setEditable(false);
+        uploadPatientData(JSON.stringify(data))
+
     }
 
     function checkDisable() {
-        if (name !== "" && phone !== "" && email !== "" && gender !== "" && name !== "" && dob !== "" && bloodgroup !== "" && house !== "" && colony !== "" && pincode !== "" && house.length >= 4 && colony.length >= 2 && pincode.length >= 6) {
+        if (name !== "" && phone !== "" && email !== "" && gender !== "" && dob !== "" && bloodgroup !== "" && house !== "" && colony !== "" && pincode !== "" && house.length >= 4 && colony.length >= 2 && pincode.length === 6) {
             setSaveActive(true)
         }
         else {
@@ -152,7 +174,7 @@ const Index = () => {
 
     async function uploadPatientImage(data) {
         try {
-            console.log("uploading image...")
+            
             let response = await fetch(
                 `http://my-doctors.net:8090/patients/${userData.user._id}`,
                 {
@@ -164,9 +186,42 @@ const Index = () => {
                 }
             );
             response = await response.json();
-            console.log("upload status",response)
-            // await navigate("/myprofile")
-            return response;
+            
+        } catch (error) {
+            console.error("Error:", error);
+            throw error;
+        }
+    }
+
+    async function uploadPatientData(data) {
+        try {
+            
+            let response = await fetch(
+                `http://my-doctors.net:8090/patients/${userData.user._id}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        Authorization: `Bearer ${userData.accessToken}`,
+                        "content-type":"application/json"
+                    },
+                    body: data,
+                }
+            );
+            response = await response.json();
+            setName(response?.firstName + " " + response?.lastName)
+            setPhone(response?.contactNumber)
+            setEmail(response?.email)
+            setGender(response?.gender)
+            setBloodgroup(response?.profile?.bloodType)
+            setHouse(response?.profile?.address?.area)
+            setColony(response?.profile?.address?.locality)
+            setCity(response?.profile?.address?.city)
+            setState(response?.profile?.address?.state)
+            setCountry(response?.profile?.address?.country)
+            setPincode(response?.profile?.address?.pincode)
+            setDOB(dayjs(response?.profile.dob))
+           
+            
         } catch (error) {
             console.error("Error:", error);
             throw error;
