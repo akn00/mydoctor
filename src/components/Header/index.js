@@ -100,8 +100,31 @@ const Header = () => {
         response = await response.json();
         setAvatarImg(response?.avatar?.buffer);
     }
+    async function getDoctorImage() {
+        const queryParams = new URLSearchParams({
+            avatar: 1,
+            "$select[]": "avatarId",
+        });
+        let response = await fetch(
+            `http://my-doctors.net:8090/patients/${userData.user._id
+            }?${queryParams.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${userData.accessToken}`,
+                },
+
+            });
+        response = await response.json();
+        setAvatarImg(response?.avatar?.buffer);
+    }
     useState(()=>{
+      if(userData?.user?.role==="doctor"){
+        getDoctorImage();
+      }
+      else{
         getPatientImage();
+      } 
     })
 
 
@@ -206,7 +229,7 @@ const Header = () => {
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
           >
-            <PersonIcon fontSize="large" style={{ color: "white", paddingLeft:"3px", paddingRight:"3px"}} />
+                    <Avatar style={{width:"40px", height:"40px"}} src={avatarImg || "/broken-image.jpg"}/>
           </Box>
           <Menu
         id="demo-positioned-menu"
@@ -252,7 +275,8 @@ const Header = () => {
           <Autocomplete
             id="specialtyInput"
             value={selectedValue}
-            onChange={(event, newValue) => setSelectedValue(newValue)}
+            style={{minWidth:"100px"}}
+            onChange={(event, newValue) => {handleChange(event); setSelectedValue(newValue)}}
             options={specializations.map(
               (specialization) => specialization.name
             )}
@@ -262,6 +286,8 @@ const Header = () => {
                 placeholder="Select a service"
                 variant="outlined"
                 InputLabelProps={{ shrink: false }} // Disable floating label
+                style={{backgroundColor:"#fafafa" }}
+                className="customcss"
               />
             )}
           />

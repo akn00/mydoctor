@@ -95,6 +95,9 @@ option:focus {
     .smallHeader{
         display: flex;
     }
+    .search{
+        max-width: 38%;
+    }
 }
 
 /* Header.css */
