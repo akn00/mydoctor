@@ -20,6 +20,7 @@ import Avatar from '@mui/material/Avatar';
 const Header = () => {
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState("");
+  const [drName, setDrName] = useState("");
   const [specializations, setSpecializations] = useState([]);
   const userId=localStorage.getItem("userInfo")
 
@@ -45,7 +46,12 @@ const Header = () => {
   };
  
   function searchHandle(){
-    navigate(`/search?sp=${selectedValue}`)
+    if(drName!==""){
+      navigate(`/search?q=${drName}&sp=${selectedValue}`)
+    }
+    else{
+      navigate(`/search?sp=${selectedValue}`)
+    }
   }
 
   useEffect(() => {
@@ -106,7 +112,7 @@ const Header = () => {
             "$select[]": "avatarId",
         });
         let response = await fetch(
-            `http://my-doctors.net:8090/patients/${userData.user._id
+            `http://my-doctors.net:8090/doctors/${userData.user._id
             }?${queryParams.toString()}`,
             {
                 method: "GET",
@@ -159,6 +165,7 @@ const Header = () => {
             <InputBase
               placeholder="Search Doctors"
               inputProps={{ "aria-label": "search" }}
+              onChange={(e)=>{setDrName(e.target.value)}}
             />
             <IconButton aria-label="search" onClick={searchHandle}>
               <SearchIcon />

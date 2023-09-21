@@ -10,7 +10,7 @@
 }
 .cardDr{
     margin-bottom: 2px;
-    max-height: 38vh;
+    max-height: 52vh;
 }
 
 .drCardContent{
@@ -29,12 +29,12 @@
 
 @media screen and (max-width: 1919px)  {
     .cardDr{
-        max-height: 42vh;
+        max-height: 58vh;
     }
 }
 @media screen and (max-width: 1280px)  {
     .cardDr{
-        max-height: 58vh;
+        max-height: 79vh;
     }
 }
 @media screen and (max-width: 600px)  {

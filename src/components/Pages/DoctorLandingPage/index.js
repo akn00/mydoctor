@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -19,17 +18,30 @@ import "./DoctorLandingPage.css";
 import SideBar from "../../SideBar/Index";
 import { useParams } from 'react-router-dom';
 import Rating from "./Rating"
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import dayjs from 'dayjs';
 
 export default function Index() {
     const [expanded, setExpanded] = React.useState(false);
     const [doctor, setDoctor] = React.useState([]);
+    const [slots, setSlots] = React.useState([]);
+    const [value, setValue] = React.useState(0);
+
+    const handleChangeSlot = (event, newValue) => {
+        setValue(newValue);
+    };
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
     const params = useParams();
-    const bracketStart="("
-    const bracketEnd=")"
+    const bracketStart = "("
+    const bracketEnd = ")"
+
+
 
     React.useEffect(() => {
         async function fetchData() {
@@ -42,6 +54,23 @@ export default function Index() {
                 console.error('Error fetching doctors:', error);
             }
         }
+
+        async function getNumbersOfSlots(id) {
+            const currentTime = new Date().toISOString();
+            const queryParams = new URLSearchParams({
+                doctorId: id,
+                "startTime[$gte]": currentTime,
+                "$sort[startTime]": 1,
+            });
+            const url = `http://my-doctors.net:8090/slots?${queryParams.toString()}`;
+
+            let response = await fetch(url);
+            response = await response.json();
+            setSlots(response.data);
+            console.log(response)
+        }
+
+        getNumbersOfSlots(params.id)
         fetchData();
     }, [params.id]);
     const experience = Math.round((doctor?.profile?.experienceMonths) / 12)
@@ -54,21 +83,21 @@ export default function Index() {
                 {doctor.firstName ?
                     <>
                         <div className='detailsCard'>
-                            <Card style={{ maxWidth: "50%" }}>
+                            <Card style={{ maxWidth: "50%", padding: "12px", margin: "12px" }}>
                                 <CardHeader
                                     style={{ margin: "12px" }}
                                     avatar={
-                                        <Avatar style={{ backgroundColor: red[500]}} aria-label="recipe">
+                                        <Avatar style={{ backgroundColor: red[500] }} aria-label="recipe">
                                             {doctor.firstName} {doctor.lastName}
                                         </Avatar>
                                     }
                                     title={`Dr. ${doctor.firstName} ${doctor.lastName}`}
-                                    subheader={doctor?.profile?.experienceMonths?`${experience} Years of Experience`:"No experience"}
+                                    subheader={doctor?.profile?.experienceMonths ? `${experience} Years of Experience` : "No experience"}
                                 />
 
                                 <CardContent >
                                     <Typography variant="body2" color="text.secondary" style={{ margin: "12px" }}>
-                                        {doctor?.profile?.bio ? doctor?.profile?.bio:"Bio not available"}
+                                        {doctor?.profile?.bio ? doctor?.profile?.bio : "Bio not available"}
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing style={{ margin: "12px" }}>
@@ -80,11 +109,28 @@ export default function Index() {
                                     </IconButton>
                                 </CardActions>
                             </Card>
+                            <div style={{ padding: "12px" }}>
+                                <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
+                                    <Paper elevation={4}> {/* Add elevation to Paper */}
+                                        <Tabs
+                                            value={value}
+                                            onChange={handleChangeSlot}
+                                            variant="scrollable"
+                                            scrollButtons="auto"
+                                            aria-label="scrollable auto tabs example"
+                                        >
+                                            {slots.map((slot) => (
+                                                <Tab label={dayjs(slot.startTime).format("MMM DD, YY")} key={slot?.data?.startTime} />
+                                            ))}
+                                        </Tabs>
+                                    </Paper>
+                                </Box>
+                            </div>
                         </div>
 
                         <div className='drAccordion'>
                             <p>
-                                Consultation Fee: {doctor?.profile?.consultationFee ? doctor?.profile?.consultationFee:"Not available"}
+                                Consultation Fee: {doctor?.profile?.consultationFee ? doctor?.profile?.consultationFee : "Not available"}
                             </p>
                             <Accordion expanded={expanded === 'specialities'} onChange={handleChange('specialities')}>
                                 <AccordionSummary
@@ -97,16 +143,16 @@ export default function Index() {
                                 <AccordionDetails>
                                     <Typography>
                                         {
-                                        doctor?.profile?.specialities && doctor.profile.specialities.length > 0 ? 
-                                        (
-                                            <ul>
-                                                {doctor.profile.specialities.map((specialitie) => (
-                                                    <li>{specialitie.name}</li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <p>No specialities available</p>
-                                        )
+                                            doctor?.profile?.specialities && doctor.profile.specialities.length > 0 ?
+                                                (
+                                                    <ul>
+                                                        {doctor.profile.specialities.map((specialitie) => (
+                                                            <li>{specialitie.name}</li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <p>No specialities available</p>
+                                                )
                                         }
 
                                     </Typography>
@@ -124,18 +170,18 @@ export default function Index() {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography>
-                                    {
-                                        doctor?.profile?.qualifications && doctor.profile.qualifications.length > 0 ? 
-                                        (
-                                            <ul>
-                                                {doctor.profile.qualifications.map((qualification) => (
-                                                    <li>{qualification.name}</li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <p>No qualifications available</p>
-                                        )
-                                    }
+                                        {
+                                            doctor?.profile?.qualifications && doctor.profile.qualifications.length > 0 ?
+                                                (
+                                                    <ul>
+                                                        {doctor.profile.qualifications.map((qualification) => (
+                                                            <li>{qualification.name}</li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <p>No qualifications available</p>
+                                                )
+                                        }
                                     </Typography>
                                 </AccordionDetails>
                             </Accordion>
@@ -150,18 +196,18 @@ export default function Index() {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography>
-                                    {
-                                        doctor?.profile?.experience && doctor.profile.experience.length > 0 ? 
-                                        (
-                                            <ul>
-                                                {doctor.profile.experience.map((exp) => (
-                                                    <li>{exp?.position} at {exp?.place} {bracketStart}{exp?.fromYear}-{exp?.toYear}{bracketEnd}</li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <p>No experience available</p>
-                                        )
-                                    }
+                                        {
+                                            doctor?.profile?.experience && doctor.profile.experience.length > 0 ?
+                                                (
+                                                    <ul>
+                                                        {doctor.profile.experience.map((exp) => (
+                                                            <li>{exp?.position} at {exp?.place} {bracketStart}{exp?.fromYear}-{exp?.toYear}{bracketEnd}</li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <p>No experience available</p>
+                                                )
+                                        }
                                     </Typography>
                                 </AccordionDetails>
                             </Accordion>
@@ -176,18 +222,18 @@ export default function Index() {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography>
-                                    {
-                                        doctor?.profile?.languages && doctor.profile.languages.length > 0 ? 
-                                        (
-                                            <ul>
-                                                {doctor.profile.languages.map((language) => (
-                                                    <li>{language}</li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <p>No languages available</p>
-                                        )
-                                    }
+                                        {
+                                            doctor?.profile?.languages && doctor.profile.languages.length > 0 ?
+                                                (
+                                                    <ul>
+                                                        {doctor.profile.languages.map((language) => (
+                                                            <li>{language}</li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <p>No languages available</p>
+                                                )
+                                        }
                                     </Typography>
                                 </AccordionDetails>
                             </Accordion>
@@ -202,7 +248,7 @@ export default function Index() {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography>
-                                    No reviews available
+                                        No reviews available
                                     </Typography>
                                 </AccordionDetails>
                             </Accordion>
@@ -216,7 +262,7 @@ export default function Index() {
                                     <Typography color='text.primary' style={{ fontWeight: "bold" }}>Write a Review</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                    <Rating/>
+                                    <Rating />
                                 </AccordionDetails>
                             </Accordion>
                             {/* Add more controlled Accordions following the same pattern */}

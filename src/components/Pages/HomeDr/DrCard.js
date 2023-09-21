@@ -27,7 +27,7 @@ const DrCard = ({ doctor }) => {
                 }
             }
         }
-
+ 
         setHospital(hospitalName);
     }, [doctor]);
 
@@ -38,6 +38,7 @@ const DrCard = ({ doctor }) => {
 
     return (
         <div className='cardDr' onClick={handleClickDr}>
+            
             <Card variant="outlined" style={{height:"100%"}}>
                 <CardContent style={{ display: "flex", alignItems: "center", flexDirection: "column", gap: "2rem",padding: "1.8rem 1.2rem"}}>
                     <div className='drCardMain'>

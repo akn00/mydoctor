@@ -9,7 +9,9 @@ const Index = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const speciality = searchParams.get("sp");
+    const name = searchParams.get("q");
     const[data,setData]=useState([]);
+    const[resultCount,setResultCount]=useState([]);
     
 
     async function getDoctorsBySpeciality(speciality, name = "") {
@@ -37,31 +39,37 @@ const Index = () => {
     }
 
     useEffect(() => {
-        getDoctorsBySpeciality(speciality).then(
+        getDoctorsBySpeciality(speciality,name).then(
             (data)=>{
-                console.log(data);
+                // console.log(data);
                 setData(data)
+                setResultCount(data?.length)
             }
         )
-    },[])
+    },[data])
 
 
     return (<div className="spResultPage">
         <SideBar/>
-        <div className="DrCardsOnDr">
+        <div style={{display:"flex", flexDirection:"column", padding:"32px"}}>
             
-            {data.length === 0 ? (
-                `No results found for '${speciality}'`
-            ) : (
-                data.map((doctor) => (
-                    <DrCard
-                        key={doctor._id} // Use a unique identifier if available
-                        doctor={doctor}
-                    />
-                ))
-            )}
+            {data&&<p style={{color:"gray"}}>{resultCount} doctors found</p>}
+            
+            <div className="DrCardsOnDr">
+
+                {data.length === 0 ? (
+                    `No results found for '${speciality}'`
+                ) : (
+                    data.map((doctor) => (
+                        <DrCard
+                            key={doctor._id} // Use a unique identifier if available
+                            doctor={doctor}
+                        />
+                    ))
+                )}
                 
-            </div>
+            </div> 
+        </div>
     </div>);
 }
 

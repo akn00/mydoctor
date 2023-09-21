@@ -11,6 +11,11 @@ import React from "react";
 import SpecialitiesSearchResult from "./components/Pages/SpecialitiesSearchResult";
 import DoctorLandingPage from "./components/Pages/DoctorLandingPage";
 import ChangePassword from "./components/Pages/ChangePassword"
+import Dashboard from "./components/Pages/Dashboard"
+import DrProfile from "./components/Pages/DoctorProfile"
+import DrQualification from "./components/Pages/DrQualification"
+import DrExperience from "./components/Pages/DrExperience"
+import DrAppointment from "./components/Pages/DrAppointment"
 
 
 function App() {
@@ -31,6 +36,11 @@ function App() {
             <Route  path="/doctor/:id" element={<DoctorLandingPage />}/>
             <Route  path="/myprofile" element={<Profile/>}/>
             <Route  path="/changepassword" element={<ChangePassword/>}/>
+            <Route  path="/doctor-dashboard" element={<Dashboard/>}/>
+            <Route  path="/doctor-profile" element={<DrProfile/>}/>
+            <Route  path="/doctor-profile/qualification" element={<DrQualification/>}/>
+            <Route  path="/doctor-profile/experience" element={<DrExperience/>}/>
+            <Route  path="/doctor-appointments" element={<DrAppointment/>}/>
           </Routes>
           
         </div>

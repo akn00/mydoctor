@@ -18,7 +18,8 @@
     width: 100%;
 }
 .detailsCard{
-    padding: 12px;
+    display: flex;
+    /* padding: 12px; */
     margin-bottom: 12px;
     width: 100%;
 }
