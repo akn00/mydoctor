@@ -16,10 +16,11 @@ import DrProfile from "./components/Pages/DoctorProfile"
 import DrQualification from "./components/Pages/DrQualification"
 import DrExperience from "./components/Pages/DrExperience"
 import DrAppointment from "./components/Pages/DrAppointment"
+import BookAppointment from "./components/Pages/BookAppointment"
 
 
 function App() {
-  // const [selectedValue, setSelectedValue] = React.useState('');
+  const [selectedDoctorValue, setSelectedDoctorValue] = React.useState('');
   
 
   return (
@@ -33,7 +34,7 @@ function App() {
             <Route  path="/login" element={<LoginNav />}/>
             <Route  path="/Specialities" element={<Specialities />}/>
             <Route  path="/search" element={<SpecialitiesSearchResult />}/>
-            <Route  path="/doctor/:id" element={<DoctorLandingPage />}/>
+            <Route  path="/doctor/:id" element={<DoctorLandingPage setSelectedDoctorValue={setSelectedDoctorValue}/>}/>
             <Route  path="/myprofile" element={<Profile/>}/>
             <Route  path="/changepassword" element={<ChangePassword/>}/>
             <Route  path="/doctor-dashboard" element={<Dashboard/>}/>
@@ -41,6 +42,7 @@ function App() {
             <Route  path="/doctor-profile/qualification" element={<DrQualification/>}/>
             <Route  path="/doctor-profile/experience" element={<DrExperience/>}/>
             <Route  path="/doctor-appointments" element={<DrAppointment/>}/>
+            <Route  path="/book-appointment" element={<BookAppointment selectedDoctorValue={selectedDoctorValue}/>}/>
           </Routes>
           
         </div>

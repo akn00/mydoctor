@@ -16,19 +16,23 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import "./DoctorLandingPage.css";
 import SideBar from "../../SideBar/Index";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Rating from "./Rating"
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import {TabPanel,TabContext} from '@mui/lab';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import dayjs from 'dayjs';
 
-export default function Index() {
+export default function Index({setSelectedDoctorValue}) {
     const [expanded, setExpanded] = React.useState(false);
     const [doctor, setDoctor] = React.useState([]);
     const [slots, setSlots] = React.useState([]);
     const [value, setValue] = React.useState(0);
+    const [showLogin, setShowLogin] = React.useState(false);
+    const navigate = useNavigate()
 
     const handleChangeSlot = (event, newValue) => {
         setValue(newValue);
@@ -40,6 +44,19 @@ export default function Index() {
     const params = useParams();
     const bracketStart = "("
     const bracketEnd = ")"
+
+    const userData = JSON.parse(localStorage.getItem("userInfo") || null)
+
+    function bookSlotClick(){
+        if(!userData){
+            setShowLogin(true);
+        }
+        else{
+            setShowLogin(false);
+            setSelectedDoctorValue(params.id)
+            navigate("/book-appointment")
+        }
+    }
 
 
 
@@ -111,6 +128,7 @@ export default function Index() {
                             </Card>
                             <div style={{ padding: "12px" }}>
                                 <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
+                                    <TabContext value={value}>
                                     <Paper elevation={4}> {/* Add elevation to Paper */}
                                         <Tabs
                                             value={value}
@@ -120,11 +138,24 @@ export default function Index() {
                                             aria-label="scrollable auto tabs example"
                                         >
                                             {slots.map((slot) => (
-                                                <Tab label={dayjs(slot.startTime).format("MMM DD, YY")} key={slot?.data?.startTime} />
+                                                <Tab label={dayjs(slot.startTime).format("MMM DD, YY")} value={slot.startTime} />
                                             ))}
                                         </Tabs>
                                     </Paper>
+                                    {slots.map((slot) => (
+                                                <TabPanel value={slot.startTime}>
+                                                <Button variant="outlined" 
+                                                style={{borderRadius:"25px", fontSize:"0.8125rem",minWidth:"auto", lineHeight:"auto", padding:"auto"}}
+                                                onClick={bookSlotClick}>
+                                                {`${dayjs(slot.startTime).format("hh:mm A")} - ${dayjs(slot.endTime).format("hh:mm A")}`}
+                                                </Button>
+                                                </TabPanel>
+                                            ))}
+                                    
+                                    </TabContext>
                                 </Box>
+
+                                {showLogin && <p style={{color:"red"}}>Please  {<a href='/login'>Sign in</a>} / {<a href="/login">Register</a>}  to book an appointment.</p>}
                             </div>
                         </div>
 
