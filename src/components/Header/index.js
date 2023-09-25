@@ -59,7 +59,7 @@ const Header = () => {
   }, []);
 
   function handleLoginClick() {
-    navigate("login");
+    navigate("/login");
   }
 
   function handleLogoClick() {
@@ -104,6 +104,7 @@ const Header = () => {
 
             });
         response = await response.json();
+        if(response?.name==="NotAuthenticated"){navigate("/login")}
         setAvatarImg(response?.avatar?.buffer);
     }
     async function getDoctorImage() {

@@ -47,13 +47,14 @@ export default function Index({setSelectedDoctorValue}) {
 
     const userData = JSON.parse(localStorage.getItem("userInfo") || null)
 
-    function bookSlotClick(){
+    function bookSlotClick(slot){
         if(!userData){
             setShowLogin(true);
         }
         else{
             setShowLogin(false);
-            setSelectedDoctorValue(params.id)
+            setSelectedDoctorValue({id:params.id,
+            slot:slot})
             navigate("/book-appointment")
         }
     }
@@ -146,7 +147,7 @@ export default function Index({setSelectedDoctorValue}) {
                                                 <TabPanel value={slot.startTime}>
                                                 <Button variant="outlined" 
                                                 style={{borderRadius:"25px", fontSize:"0.8125rem",minWidth:"auto", lineHeight:"auto", padding:"auto"}}
-                                                onClick={bookSlotClick}>
+                                                onClick={bookSlotClick(slot)}>
                                                 {`${dayjs(slot.startTime).format("hh:mm A")} - ${dayjs(slot.endTime).format("hh:mm A")}`}
                                                 </Button>
                                                 </TabPanel>
