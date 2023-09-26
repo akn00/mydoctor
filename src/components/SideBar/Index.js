@@ -28,6 +28,7 @@ const Index = () => {
     const [drQualification,setDrQualification]=React.useState(false);
     const [drExperience,setDrExperience]=React.useState(false);
     const [drAppointment,setDrAppointment]=React.useState(false);
+    const [appointment,setAppointment]=React.useState(false);
     const [drDrawer,setDrDrawer]=React.useState(false);
 
     
@@ -55,6 +56,13 @@ const Index = () => {
         }
         else{
             setHomeSelected(false)
+        }
+        
+        if(searchParams==="/appointments"){
+            setAppointment(true)
+        }
+        else{
+            setAppointment(false)
         }
 
         if(searchParams==="/specialities"){
@@ -209,7 +217,7 @@ const Index = () => {
                     <ListItemText primary="Specialities" />
                 </ListItem>
 
-                {userId&&<ListItem button style={{ marginTop: 10, marginBottom: 10 }} onClick={clickAppointments}>
+                {userId&&<ListItem button style={{ marginTop: 10, marginBottom: 10 }} onClick={clickAppointments} selected={appointment}>
                     <ListItemIcon>
                         <EventNoteIcon />
                     </ListItemIcon>

@@ -21,7 +21,7 @@ import BookAppointment from "./components/Pages/BookAppointment"
 
 function App() {
   const [selectedDoctorValue, setSelectedDoctorValue] = React.useState('');
-  
+  const [showAppointmentError, setShowAppointmentError] = React.useState(false);
 
   return (
   <BrowserRouter>
@@ -41,8 +41,9 @@ function App() {
             <Route  path="/doctor-profile" element={<DrProfile/>}/>
             <Route  path="/doctor-profile/qualification" element={<DrQualification/>}/>
             <Route  path="/doctor-profile/experience" element={<DrExperience/>}/>
-            <Route  path="/doctor-appointments" element={<DrAppointment/>}/>
-            <Route  path="/book-appointment" element={<BookAppointment selectedDoctorValue={selectedDoctorValue}/>}/>
+            <Route  path="/doctor-appointments" element={<DrAppointment showAppointmentError={showAppointmentError}/>}/>
+            <Route  path="/appointments" element={<DrAppointment showAppointmentError={showAppointmentError}/>}/>
+            <Route  path="/book-appointment" element={<BookAppointment selectedDoctorValue={selectedDoctorValue} setShowAppointmentError={setShowAppointmentError}/>}/>
           </Routes>
           
         </div>

@@ -147,7 +147,7 @@ export default function Index({setSelectedDoctorValue}) {
                                                 <TabPanel value={slot.startTime}>
                                                 <Button variant="outlined" 
                                                 style={{borderRadius:"25px", fontSize:"0.8125rem",minWidth:"auto", lineHeight:"auto", padding:"auto"}}
-                                                onClick={bookSlotClick(slot)}>
+                                                onClick={()=>{bookSlotClick(slot)}}>
                                                 {`${dayjs(slot.startTime).format("hh:mm A")} - ${dayjs(slot.endTime).format("hh:mm A")}`}
                                                 </Button>
                                                 </TabPanel>
@@ -164,7 +164,7 @@ export default function Index({setSelectedDoctorValue}) {
                             <p>
                                 Consultation Fee: {doctor?.profile?.consultationFee ? doctor?.profile?.consultationFee : "Not available"}
                             </p>
-                            <Accordion expanded={expanded === 'specialities'} onChange={handleChange('specialities')}>
+                            <Accordion expanded={expanded === 'specialities'} onChange={()=>{handleChange('specialities')}}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="specialities-content"
@@ -192,7 +192,7 @@ export default function Index({setSelectedDoctorValue}) {
 
                             </Accordion>
 
-                            <Accordion expanded={expanded === 'qualifications'} onChange={handleChange('qualifications')}>
+                            <Accordion expanded={expanded === 'qualifications'} onChange={()=>{handleChange('qualifications')}}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="qualifications-content"
@@ -218,7 +218,7 @@ export default function Index({setSelectedDoctorValue}) {
                                 </AccordionDetails>
                             </Accordion>
 
-                            <Accordion expanded={expanded === 'Experience'} onChange={handleChange('Experience')}>
+                            <Accordion expanded={expanded === 'Experience'} onChange={()=>{handleChange('Experience')}}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="qualifications-content"
@@ -244,7 +244,7 @@ export default function Index({setSelectedDoctorValue}) {
                                 </AccordionDetails>
                             </Accordion>
 
-                            <Accordion expanded={expanded === 'Languages'} onChange={handleChange('Languages')}>
+                            <Accordion expanded={expanded === 'Languages'} onChange={()=>{handleChange('Languages')}}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="qualifications-content"
@@ -270,7 +270,7 @@ export default function Index({setSelectedDoctorValue}) {
                                 </AccordionDetails>
                             </Accordion>
 
-                            <Accordion expanded={expanded === 'Reviews'} onChange={handleChange('Reviews')}>
+                            <Accordion expanded={expanded === 'Reviews'} onChange={()=>{handleChange('Reviews')}}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="qualifications-content"
@@ -285,7 +285,7 @@ export default function Index({setSelectedDoctorValue}) {
                                 </AccordionDetails>
                             </Accordion>
 
-                            <Accordion expanded={expanded === 'WriteaReview'} onChange={handleChange('WriteaReview')}>
+                            <Accordion expanded={expanded === 'WriteaReview'} onChange={()=>{handleChange('WriteaReview')}}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="qualifications-content"
