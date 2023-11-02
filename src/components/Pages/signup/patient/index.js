@@ -227,7 +227,7 @@ const data={firstName:fullName[0],
     contactNumber:mobNumber,
     gender:gender,
     profile:{
-        dob:`${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        dob:`${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
     }
 
 }

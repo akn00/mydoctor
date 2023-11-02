@@ -61,7 +61,7 @@ const Index = () => {
             gridTemplateColumns: "1fr 1fr 1fr",
             width: "100%",
             gap: "1.5rem",
-          }}
+          }} 
         >
           <div style={{ backgroundColor: "white", padding: "12px" }}>
             <p style={{ fontSize: "17px", margin: 0, padding: "8px" }}>

@@ -6,7 +6,7 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Home from "./components/Pages/Home";
 import InfiniteBar from "./components/InfiniteBar";
 import Footer from "./components/Footer";
-import "./app.css"
+import "./App.css"
 import React from "react";
 import SpecialitiesSearchResult from "./components/Pages/SpecialitiesSearchResult";
 import DoctorLandingPage from "./components/Pages/DoctorLandingPage";

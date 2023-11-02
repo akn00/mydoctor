@@ -167,7 +167,7 @@ const Index = () => {
     const [editable, setEditable] = useState(false);
 
     useEffect(()=>{
-        setLanguages(userData?.user?.profile?.languages)
+        setLanguages(userData?.user?.profile?.languages||[])
         setGender(userData?.user?.gender)
         setName(userData?.user?.firstName+" "+userData?.user?.lastName)
         setFees(userData?.user?.profile?.consultationFee)

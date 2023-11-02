@@ -94,7 +94,7 @@ const Header = () => {
             "$select[]": "avatarId",
         });
         let response = await fetch(
-            `http://my-doctors.net:8090/patients/${userData.user._id
+            `http://my-doctors.net:8090/patients/${userData?.user._id
             }?${queryParams.toString()}`,
             {
                 method: "GET",
@@ -113,7 +113,7 @@ const Header = () => {
             "$select[]": "avatarId",
         });
         let response = await fetch(
-            `http://my-doctors.net:8090/doctors/${userData.user._id
+            `http://my-doctors.net:8090/doctors/${userData?.user._id
             }?${queryParams.toString()}`,
             {
                 method: "GET",
@@ -126,12 +126,13 @@ const Header = () => {
         setAvatarImg(response?.avatar?.buffer);
     }
     useState(()=>{
+      if(userData){
       if(userData?.user?.role==="doctor"){
         getDoctorImage();
       }
       else{
         getPatientImage();
-      } 
+      } }
     })
 
 

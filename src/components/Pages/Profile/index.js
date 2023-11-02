@@ -117,7 +117,7 @@ const Index = () => {
     }
 
     function checkDisable() {
-        if (name !== "" && phone !== "" && email !== "" && gender !== "" && dob !== "" && bloodgroup !== "" && house !== "" && colony !== "" && pincode !== "" && house.length >= 4 && colony.length >= 2 && pincode.length === 6) {
+        if (name !== "" && phone !== "" && email !== "" && gender !== "" && dob !== "" && bloodgroup !== "" && house !== "" && colony !== "" && pincode !== "" && String(house).length >= 4 && String(colony).length >= 2 && String(pincode).length === 6) {
             setSaveActive(true)
         }
         else {

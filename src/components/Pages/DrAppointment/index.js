@@ -3,11 +3,11 @@ import TextField from "@mui/material/TextField"
 import Alert from '@mui/material/Alert'
 import MenuItem from "@mui/material/MenuItem"
 const Index = ({showAppointmentError}) => {
-//    7006675328
+
     return (
     <div style={{display:"flex"}}>
         <SideBar/>
-        <div style={{display:"flex", flexDirection:"column", padding:"32px", width:"100%"}}>
+        <div style={{display:"flex", flexDirection:"column", padding:"32px", width:"100%", minHeight:"71.7vh"}}>
             <div style={{display:"flex", justifyContent:"space-between", width:"100%", marginBottom:"1rem"}}>
 
                 <p style={{
