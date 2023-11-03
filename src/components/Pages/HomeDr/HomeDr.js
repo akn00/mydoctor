@@ -12,7 +12,7 @@ const HomeDoctor = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch(`http://my-doctors.net:8090/doctors?$limit=${doctorsPerPage}&$skip=${(currentPage - 1) * doctorsPerPage}`);
+                const response = await fetch(`https://my-doctors.net:8090/doctors?$limit=${doctorsPerPage}&$skip=${(currentPage - 1) * doctorsPerPage}`);
                 const data = await response.json();
                 setDoctors(data.data);
                 setNumberOfDoctors(data.total);
